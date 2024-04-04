@@ -128,3 +128,4 @@ D:\Projects\Linqe\Linqe\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security
 D:\Projects\Linqe\Linqe\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 D:\Projects\Linqe\Linqe\obj\Debug\net8.0\Linqe.csproj.AssemblyReference.cache
 D:\Projects\Linqe\Linqe\obj\Debug\net8.0\Linqe.csproj.Up2Date
+D:\Projects\Linqe\Linqe\obj\Debug\net8.0\Linqe.sourcelink.json

@@ -1,4 +1,8 @@
 ﻿using Linqe.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Linq;
+using System.Runtime.ExceptionServices;
 
 namespace Linqe
 {
@@ -120,10 +124,86 @@ namespace Linqe
             }
             #endregion
             #region Grouping
+            var groupingquery = _context.Empolyee.GroupBy(e => e.DeptId).Select(e => new { Deptid = e.Key, count = e.Count(), Sumofsalary=e.Sum(s=>s.Salary) }).OrderByDescending(e=>e.count);
+            foreach (var item in groupingquery)
+            {
+                Console.WriteLine($"DebtId :{item.Deptid }\t count :{item.count} \t sumofsalary :{item.Sumofsalary}");
+                
+            }
+            foreach(var item in _context.Empolyee.ToList().Chunk(3))
+            {
+                Console.WriteLine(item);
+                foreach (var item1 in item)
+                {
+                    Console.WriteLine(item1.Name);
+                }
+                
+            }
+            #endregion
+            #region Set operator
+            string[] seq1 = { "A", "b", "C" };
+            string[] seq2 = { "a", "B", "c" };
+            var union = seq1.UnionBy(seq2,c=>c.ToUpperInvariant());            foreach (var item in union)
+            {
+                Console.WriteLine(item);
+                
+            }            int[] seq1num = { 1, 2, 3 }, seq2num = { 3, 4, 5 };
+
+            var commonality = seq1num.Intersect(seq2num);  //3
+            var difference1 = seq1num.Except(seq2num);//1 , 2
+            var difference2 = seq2num.Except(seq1num); // 4,5
+
+
+
 
             #endregion
+            #region conversion methods
+            int[] numar = {1,2,3,4,5,6,7};
+            IEnumerable<string>enumlist=numar.OfType<string>();
+            foreach (var item in enumlist)
+            {
+                Console.WriteLine(item);
+            }
+            //throw exception 
+            //IEnumerable<string> enumlist2 = numar.Cast<string>();
+            //foreach (var item in enumlist2)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            #endregion
+            #region Element operators
+            //var Firstempolyee = _context.Empolyee.FirstOrDefault(e => e.Salary > 50000);
+            //Console.WriteLine(Firstempolyee);
+            //throw new Exception
+            //var Firstempolyee1 = _context.Empolyee.First(e => e.Salary > 50000);
+            //Console.WriteLine(Firstempolyee1.Name);
+            //var lastempolyee = _context.Empolyee.LastOrDefault(e => e.Salary == 20000 );
+            //Console.WriteLine(lastempolyee.Name);
+            var emp=_context.Empolyee.Min(e=>e.Salary);
+            Console.WriteLine(emp.Value);
 
 
+
+            #endregion
+            #region Aggregation Methods            int countofempolyee = _context.Empolyee.Count();
+             Console.WriteLine(countofempolyee);
+             decimal sumsalary=(decimal)  _context.Empolyee.Sum(e=>e.Salary);
+            Console.WriteLine(sumsalary);
+
+
+
+
+
+            #endregion
+            #region Quientfires
+            bool hasAThree = new int[] { 2, 3, 4 }.Contains(3);
+            Console.WriteLine(hasAThree);
+            bool hasAThree2 = new int[] { 2, 3, 4 }.Any(n => n == 3); // true;
+            var query5 = _context.Empolyee.Any(p => p.Salary > 1000);
+            Console.WriteLine(query5);
+            var query6 = _context.Empolyee.All(p => p.Salary > 20000);
+            Console.WriteLine(query6);
+            #endregion
 
         }
     }
